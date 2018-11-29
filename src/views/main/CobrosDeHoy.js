@@ -2,36 +2,56 @@ import React, { Component } from 'react';
 import {View, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
 import ListItem_CobrosDeHoy from '../../components/ListItem_CobrosDeHoy'
 import Colors from '../../assets/Colors';
+import {GET_CobrosDeHoy as obtenerCobros} from '../../api'
+import { Actions } from 'react-native-router-flux';
 
 export default class CobrosDeHoy extends Component {
     constructor(props) {
         super(props);
         this.state = {
             page: 1,
-            data: [    {
-                idCliente: "1",
-                telefono: "3121196780",
-                idPedido: "5236",
-                hora: "13:30",
-                total: "2000",
-            },],
-            threshold: 0.5,
+            data: [],
+            threshold: 1,
             loading: true,
             refreshing: false
         }
     }
 
-    handleOnEndReached = (distanceFromEnd) => {
-        if (this.state.page < 5) {
+    componentDidMount() {
+        this.handleOnRefresh();
+    }
+
+    handleOnRefresh = () => {
+        obtenerCobros(1, 15).then(result => {
+            // console.warn(result)
             this.setState({
-                page: this.state.page + 1,
-                data: [...this.state.data, ...data]
-            });
+                refreshing: true,
+            }, () => {
+                this.setState({
+                    page: 1,
+                    data: result.items,
+                    pages: parseInt(result.total / 15) + 1,
+                    threshold: 1,
+                    loading: true,
+                    refreshing: false
+                })
+            })
+        }).catch(err => console.error(err))
+    }
+
+    handleOnEndReached = (distanceFromEnd) => {
+        if (this.state.page < this.state.pages) {
+            obtenerCobros(this.state.page + 1, 15).then(result => {
+                this.setState({
+                    page: this.state.page + 1,
+                    data: [...this.state.data, ...result.items]
+                });
+            }).catch(err => {
+                console.log(err);
+            })
         } else {
             this.setState({
                 loading: false
-            }, () => {
-                console.log("Final alcanzado");
             })
         }
     }
@@ -43,8 +63,8 @@ export default class CobrosDeHoy extends Component {
                     ref={list => this.list = list}
                     data={this.state.data}
                     renderItem={({item}) => (
-                        <TouchableOpacity onPress={() => console.warn("presionado: " + item.idCliente)}>
-                            <ListItem_CobrosDeHoy style={{flex: 1}} {...item} />
+                        <TouchableOpacity onPress={() => Actions.abonarCliente({data: item})}>
+                            <ListItem_CobrosDeHoy style={{flex: 1}} data={item} />
                         </TouchableOpacity>
                     )}
                     keyExtractor={(item, index) => index.toString()}
@@ -58,151 +78,10 @@ export default class CobrosDeHoy extends Component {
                             color={Colors.secondary}
                         /> : null
                     }
-                    onRefresh={() => {
-                        this.setState({
-                            refreshing: true
-                        }, () => {
-                            this.setState({
-                                page: 1,
-                                data: [    {
-                                    idCliente: "1",
-                                    telefono: "3121196780",
-                                    idPedido: "5236",
-                                    hora: "13:30",
-                                    total: "2000",
-                                },],
-                                threshold: 0.5,
-                                loading: true,
-                                refreshing: false
-                            })
-                        })
-                    }}
+                    onRefresh={() => this.handleOnRefresh()}
                     refreshing={this.state.refreshing}
                 />
             </View>
         )
     }
 }
-
-var data = [
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "1",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-    },
-    {
-        idCliente: "100000000000",
-        telefono: "3121196780",
-        idPedido: "5236",
-        hora: "13:30",
-        total: "2000",
-        color: true
-    },
-];
