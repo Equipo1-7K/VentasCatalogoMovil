@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import {URL, SESION, REGISTRO, PRODUCTOS, CLIENTES} from './Constantes'
+import {URL, SESION, REGISTRO, PRODUCTOS, CLIENTES, VENTAS, COBROS_DEL_DIA} from './Constantes'
 
 // ----------- Sesión -----------
 
@@ -201,6 +201,49 @@ export const DELETE_Clientes = (id) => {
     return new Promise((resolve, reject) => {
         Axios.delete(`${CLIENTES}/${id}`).then((response) => {
             resolve(response.data)
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}
+
+// ----------- Cobros de Hoy -----------
+/**
+ * Petición GET para obtener los cobros de hoy
+ * @returns {Promise} El objeto promesa representa los datos de la respuesta de la petición
+ */
+export const GET_CobrosDeHoy = (page, perPage) => {
+    return new Promise((resolve, reject) => {
+        Axios.get(`${COBROS_DEL_DIA}?page=${page}&perPage=${perPage}`).then((response) => {
+            resolve(response.data)  
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}
+
+/**
+ * Petición POST para agregar un abono a un cliente y pedido específico
+ * @returns {Promise} El objeto promesa representa los datos de la respuesta de la petición
+ */
+export const GET_VentaPorId = (id) => {
+    return new Promise((resolve, reject) => {
+        Axios.get(`${VENTAS}/${id}`).then((response) => {
+            resolve(response.data)  
+        }).catch(err => {
+            reject(err)
+        })
+    })
+}
+
+/**
+ * Petición POST para agregar un abono a un cliente y pedido específico
+ * @returns {Promise} El objeto promesa representa los datos de la respuesta de la petición
+ */
+export const POST_AbonoVenta = (idVenta, cantidad) => {
+    return new Promise((resolve, reject) => {
+        Axios.post(`${VENTAS}/${idVenta}/abonos`, {cantidad}).then((response) => {
+            resolve(response.data)  
         }).catch(err => {
             reject(err)
         })

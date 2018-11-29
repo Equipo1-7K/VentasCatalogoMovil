@@ -3,6 +3,7 @@ export default {
     secondary: 'slategray',
     success: 'seagreen',
     danger: 'rgba(231,76,60,1)',
+    lightDanger: '#fae7e7',
     warning: 'gold',
     info: 'lightseagreen',
     light: 'ghostwhite',

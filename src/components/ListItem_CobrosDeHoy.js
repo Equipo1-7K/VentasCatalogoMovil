@@ -1,41 +1,44 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import Colors from '../assets/Colors'
+import Moment from 'moment'
 
-type Props = {
-    idCliente: string,
-    telefono: string,
-    idPedido: string,
-    hora: string,
-    total: number,
-    color?: boolean
-}
-
-export default class ListItem_CobrosDeHoy extends PureComponent<Props> {
+export default class ListItem_CobrosDeHoy extends PureComponent {
     constructor(props) {
         super(props);
     }
 
     render() {
-        const {idCliente, telefono, idPedido, hora, total, color} = this.props
+        const {idVenta, cliente, hora, deuda, fechaAPagar} = this.props.data
         return (
-            <View style={[styles.root, { backgroundColor: color ? 'gold' : 'white' }]}>
+            <View style={[styles.root, { backgroundColor: Moment().isAfter(fechaAPagar, 'day') ? Colors.lightDanger : Colors.white }]}>
                 <View>
                     <Text style={styles.textCliente}>
-                        Cliente {idCliente}
+                        Cliente {`${cliente.nombre} ${cliente.apPaterno} ${cliente.apMaterno}`}
                     </Text>
-                    <Text>
-                        {telefono}
-                    </Text>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Icon name='phone' size={14} color='black' style={{marginRight: 5}}/>
+                        <Text>
+                            {cliente.telefono}
+                        </Text>
+                    </View>
                     <Text style={styles.textCliente}>
-                        Pedido: #{idPedido}
+                        Pedido: #{idVenta}
                     </Text>
                 </View>
                 <View>
                     <Text style={styles.textHora}>
-                        {hora} hrs
+                        {Moment(fechaAPagar).format('DD/MM/YYYY')}
                     </Text>
-                    <Text style={styles.textHora}>
-                        ${total}
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Icon name='access-time' size={14} color='black' style={{marginRight: 5}}/>
+                        <Text style={styles.textHora}>
+                            13:00
+                        </Text>
+                    </View>
+                    <Text style={styles.textDeuda}>
+                        ${deuda}
                     </Text>
                 </View>
             </View>
@@ -61,5 +64,8 @@ const styles = StyleSheet.create({
     },
     textCliente: {
         fontSize: 16
+    },
+    textDeuda: {
+        fontWeight: 'bold'
     }
 });
