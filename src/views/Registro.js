@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import {registrarUsuario} from '../api/apiClient';
 import TextField from '../components/TextField';
 import validate from '../utils/validationWrapper';
+import Colors from '../assets/Colors';
 
 export default class Registro extends BackHandledComponent {
   state = {
@@ -88,7 +89,7 @@ export default class Registro extends BackHandledComponent {
   render() {
     return (
       <KeyboardAwareScrollView 
-      style={{flex: 1}}
+      style={{flex: 1, backgroundColor: Colors.white}}
       contentContainerStyle={styles.container}
       >
         <View>

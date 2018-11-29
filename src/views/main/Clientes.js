@@ -142,7 +142,7 @@ export default class Clientes extends Component {
           refreshing={this.state.refreshing}
         />
         <ActionButton 
-          buttonColor={Colors.info}
+          buttonColor={Colors.clientes}
           onPress={() => { Actions.clientesAgregar() }}
         >
         </ActionButton>

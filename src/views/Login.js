@@ -8,6 +8,7 @@ import TextField from '../components/TextField';
 import validate from '../utils/validationWrapper';
 import Axios from 'axios';
 import Colors from '../assets/Colors';
+import CarritoHandler from '../utils/CarritoHandler';
 
 export default class Login extends Component {
   state = {
@@ -17,6 +18,8 @@ export default class Login extends Component {
       errorCorreo: '',
     }
   }
+
+  carritoHandler = new CarritoHandler();
 
   componentDidMount() {
     this.handleBackPress = BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
@@ -62,6 +65,8 @@ export default class Login extends Component {
   _iniciarSesion() {
     const { correo, contrasena } = this.state;
     iniciarSesion(correo, contrasena).then(data => {
+      //Se elimina contenido de carrito si existe
+      this.carritoHandler.vaciar().catch((err)=>{console.log(err)});
       // guardamos el token y esa wea
       Axios.defaults.headers.common['Authorization'] = data.token;
       AsyncStorage.setItem("Token", data.token).then(() => {

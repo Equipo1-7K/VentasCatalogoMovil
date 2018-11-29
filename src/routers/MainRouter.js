@@ -9,6 +9,7 @@ import Colors from '../assets/Colors';
 import ClientesView from '../views/main/Clientes'
 import CobrosDeHoyView from '../views/main/CobrosDeHoy'
 import ProductosView from '../views/main/Productos'
+import CarritoView from '../views/main/Carrito'
 
 
 class Placeholder extends Component {
@@ -75,7 +76,7 @@ class BottomNavigation extends Component {
                 tabBarIcon: () => (
                     <Icon name='store' color='white' size={24}/>
                 ),
-                tabBarColor: Colors.success,                
+                tabBarColor: Colors.productos,                
             },
         },
         Clientes: {
@@ -84,7 +85,7 @@ class BottomNavigation extends Component {
                 tabBarIcon: () => (
                     <Icon name='people' color='white' size={24}/>
                 ),
-                tabBarColor: Colors.info,
+                tabBarColor: Colors.clientes,
             }
         },
         Hoy: {
@@ -93,7 +94,7 @@ class BottomNavigation extends Component {
                 tabBarIcon: () => (
                     <Icon name='today' color='white' size={24}/>
                 ),
-                tabBarColor: Colors.primary,
+                tabBarColor: Colors.cobrosDeHoy,
             }
         },
         Ventas: {
@@ -102,16 +103,21 @@ class BottomNavigation extends Component {
                 tabBarIcon: () => (
                     <Icon name='attach-money' color='white' size={24}/>
                 ),
-                tabBarColor: Colors.warning,
+                tabBarColor: Colors.ventas,
             }
         },
         Carrito: {
-            screen: Placeholder,
+            screen: () => <CarritoView ref={carrito => this.carrito = carrito} />,
             navigationOptions: {
                 tabBarIcon: () => (
                     <Icon name='shopping-cart' color='white' size={24}/>
                 ),
-                tabBarColor: Colors.danger,
+                tabBarColor: Colors.carrito,
+                tabBarOnPress: ({defaultHandler}) => {
+                    if (this.carrito)
+                        this.carrito.handleOnRefresh();
+                    defaultHandler();
+                }
             }
         }
     }, {
@@ -130,7 +136,7 @@ class BottomNavigation extends Component {
 
 const MainRouter = () => {
     return (
-        <Scene type="reset" key='main' component={BottomNavigation} title="Ventas por catálogo"/>
+        <Scene type="reset" key='main' component={BottomNavigation} title="Ventas conmigo"/>
     )
 }
 

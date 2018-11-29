@@ -158,7 +158,7 @@ export default class Productos extends Component {
                     refreshing={this.state.refreshing}
                 />
                 <ActionButton
-                    buttonColor="rgba(231,76,60,1)"
+                    buttonColor={Colors.productos}
                     onPress={() => { Actions.productosAgregar() }}
                 />
             </View>

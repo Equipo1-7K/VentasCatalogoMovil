@@ -6,8 +6,8 @@ import Colors from '../assets/Colors';
 class TextDataWithIcon extends Component {
   render() {
     return(
-      <View style={styles.container}>
-        <Text style={styles.label}>
+      <View style={[styles.container, this.props.styleContainer]}>
+        <Text style={[styles.label, this.props.styleLabel]}>
           {this.props.label}
         </Text>
         <View style={styles.dataContainer}>

@@ -9,5 +9,10 @@ export default {
     lightgray: '#e4e4e4',
     gray: '#bdbdbd',
     dark: 'darkslategray',
-    white: 'white'
+    white: 'white',
+    productos: '#5644c4',
+    clientes: '#c44472',
+    cobrosDeHoy: '#4472c4',
+    ventas: '#3bb273',
+    carrito: '#44b2c4'
 }
